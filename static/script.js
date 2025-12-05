@@ -1,14 +1,36 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Daily tip functionality
+    console.log('DOM loaded, initializing scripts...');
+    
+    // Initialize all features
+    initDailyTips();
+    initFeedbackForm();
+    initBMICalculator();
+    initNavigation();
+    initProgressTracker();
+    initAchievements();
+    
+    // Initialize Read More buttons - FIXED
+    initReadMoreButtons();
+    
+    // Load initial tip
+    loadInitialTip();
+});
+
+// ========== DAILY TIPS ==========
+function initDailyTips() {
     const tipButton = document.getElementById('getTipBtn');
     const tipDisplay = document.getElementById('dailyTip');
 
+    if (!tipButton || !tipDisplay) return;
+
     tipButton.addEventListener('click', async function() {
+        console.log('Getting daily tip...');
         tipButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
         tipButton.disabled = true;
         
         try {
             const response = await fetch('/get_tip');
+            if (!response.ok) throw new Error('Network error');
             const data = await response.json();
             tipDisplay.textContent = data.tip;
             
@@ -21,16 +43,134 @@ document.addEventListener('DOMContentLoaded', function() {
             // Unlock achievement
             unlockAchievement('Daily Tip Collector');
         } catch (error) {
-            tipDisplay.textContent = "Tip of the day: Consistency is key to success!";
+            console.error('Error loading tip:', error);
+            tipDisplay.textContent = "Tip: Consistency is the key to success in fitness!";
+            tipDisplay.style.color = '#e74c3c';
         } finally {
             tipButton.innerHTML = '<i class="fas fa-lightbulb"></i> Get New Tip';
             tipButton.disabled = false;
         }
     });
+}
 
-    // Feedback form submission
+function loadInitialTip() {
+    const tipDisplay = document.getElementById('dailyTip');
+    if (tipDisplay && tipDisplay.textContent.includes('Click the button')) {
+        const initialTips = [
+            "Start your day with a glass of water to boost metabolism.",
+            "A 30-minute walk daily can improve heart health by 40%.",
+            "Strength training 2-3 times per week builds muscle and bone density.",
+            "Sleep 7-8 hours nightly for optimal recovery and performance."
+        ];
+        const randomTip = initialTips[Math.floor(Math.random() * initialTips.length)];
+        tipDisplay.textContent = randomTip;
+    }
+}
+
+// ========== READ MORE BUTTONS - FIXED ==========
+function initReadMoreButtons() {
+    console.log('Initializing Read More buttons...');
+    
+    // Get ALL read more buttons on the page
+    const readMoreButtons = document.querySelectorAll('.read-more');
+    const modal = document.getElementById('articleModal');
+    const modalContent = document.getElementById('modalContent');
+    const closeModal = document.querySelector('.close-modal');
+    
+    console.log(`Found ${readMoreButtons.length} Read More buttons`);
+
+    // Add click event to each button
+    readMoreButtons.forEach((button, index) => {
+        button.addEventListener('click', async function(event) {
+            event.preventDefault();
+            console.log(`Read More button ${index + 1} clicked`);
+            
+            // Show loading state
+            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
+            button.disabled = true;
+            
+            try {
+                // Get article ID from data attribute or index
+                const articleId = this.getAttribute('data-article-id') || (index + 1);
+                console.log(`Fetching article ${articleId}...`);
+                
+                const response = await fetch(`/get_article/${articleId}`);
+                if (!response.ok) throw new Error('Article not found');
+                
+                const data = await response.json();
+                console.log('Article data received:', data.title);
+                
+                // Display article in modal
+                modalContent.innerHTML = `
+                    <h3 style="color: #1a2980; margin-bottom: 20px;">${data.title}</h3>
+                    <div class="article-full-content" style="line-height: 1.8; font-size: 1.1rem;">
+                        ${data.content}
+                    </div>
+                    <div style="margin-top: 30px; padding: 15px; background: #f8f9fa; border-radius: 10px;">
+                        <h4 style="color: #26d0ce;">Key Takeaways:</h4>
+                        <ul style="margin-top: 10px;">
+                            <li>Apply these tips to your daily routine</li>
+                            <li>Share with friends and family</li>
+                            <li>Track your progress weekly</li>
+                        </ul>
+                    </div>
+                `;
+                
+                // Show modal with animation
+                modal.style.display = 'flex';
+                modal.style.animation = 'fadeIn 0.3s';
+                
+                unlockAchievement('Knowledge Seeker');
+            } catch (error) {
+                console.error('Error loading article:', error);
+                modalContent.innerHTML = `
+                    <div style="text-align: center; padding: 40px;">
+                        <i class="fas fa-exclamation-triangle" style="font-size: 3rem; color: #e74c3c; margin-bottom: 20px;"></i>
+                        <h3>Unable to Load Article</h3>
+                        <p>Please check your connection and try again.</p>
+                        <button class="btn" onclick="this.parentElement.parentElement.innerHTML=''">Close</button>
+                    </div>
+                `;
+                modal.style.display = 'flex';
+            } finally {
+                // Reset button state
+                button.innerHTML = '<i class="fas fa-book-reader"></i> Read More';
+                button.disabled = false;
+            }
+        });
+    });
+
+    // Close modal functionality
+    if (closeModal) {
+        closeModal.addEventListener('click', function() {
+            modal.style.animation = 'fadeOut 0.3s';
+            setTimeout(() => {
+                modal.style.display = 'none';
+                modalContent.innerHTML = '';
+            }, 300);
+        });
+    }
+
+    // Close modal when clicking outside
+    if (modal) {
+        window.addEventListener('click', function(event) {
+            if (event.target === modal) {
+                modal.style.animation = 'fadeOut 0.3s';
+                setTimeout(() => {
+                    modal.style.display = 'none';
+                    modalContent.innerHTML = '';
+                }, 300);
+            }
+        });
+    }
+}
+
+// ========== FEEDBACK FORM ==========
+function initFeedbackForm() {
     const feedbackForm = document.getElementById('feedbackForm');
     const feedbackMessage = document.getElementById('feedbackMessage');
+
+    if (!feedbackForm) return;
 
     feedbackForm.addEventListener('submit', async function(e) {
         e.preventDefault();
@@ -38,7 +178,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const message = document.getElementById('message').value;
 
         feedbackMessage.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
-        feedbackMessage.style.color = 'var(--primary)';
+        feedbackMessage.style.color = '#1a2980';
 
         try {
             const response = await fetch('/submit_feedback', {
@@ -46,6 +186,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ name, message })
             });
+            
+            if (!response.ok) throw new Error('Submission failed');
+            
             const data = await response.json();
             feedbackMessage.innerHTML = `<i class="fas fa-check-circle"></i> ${data.message}`;
             feedbackMessage.style.color = '#2ecc71';
@@ -57,15 +200,22 @@ document.addEventListener('DOMContentLoaded', function() {
             feedbackMessage.style.color = '#e74c3c';
         }
     });
+}
 
-    // BMI Calculator
+// ========== BMI CALCULATOR ==========
+function initBMICalculator() {
     const bmiForm = document.getElementById('bmiForm');
     const bmiResult = document.getElementById('bmiResult');
+
+    if (!bmiForm) return;
 
     bmiForm.addEventListener('submit', async function(e) {
         e.preventDefault();
         const weight = document.getElementById('weight').value;
         const height = document.getElementById('height').value;
+
+        bmiResult.innerHTML = '<div style="text-align: center;"><i class="fas fa-spinner fa-spin"></i> Calculating...</div>';
+        bmiResult.style.display = 'block';
 
         try {
             const response = await fetch('/calculate_bmi', {
@@ -73,63 +223,52 @@ document.addEventListener('DOMContentLoaded', function() {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ weight, height })
             });
+            
             const data = await response.json();
             
             if (data.error) {
-                bmiResult.innerHTML = `<div style="color: #e74c3c;">${data.error}</div>`;
+                bmiResult.innerHTML = `<div style="color: #e74c3c; padding: 15px; background: #ffeaea; border-radius: 10px;">
+                    <i class="fas fa-exclamation-triangle"></i> ${data.error}
+                </div>`;
             } else {
+                // Determine color based on BMI
+                let color = '#2ecc71'; // green for normal
+                if (data.bmi >= 25) color = '#f39c12'; // orange for overweight
+                if (data.bmi >= 30) color = '#e74c3c'; // red for obese
+                if (data.bmi < 18.5) color = '#3498db'; // blue for underweight
+                
                 bmiResult.innerHTML = `
-                    <h4>Your Results:</h4>
-                    <p><strong>BMI:</strong> ${data.bmi}</p>
-                    <p><strong>Category:</strong> ${data.category}</p>
-                    <p><strong>Advice:</strong> ${data.advice}</p>
+                    <div style="padding: 20px; background: ${color}10; border-left: 5px solid ${color}; border-radius: 10px;">
+                        <h4 style="color: ${color}; margin-bottom: 15px;">Your BMI Results:</h4>
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 20px;">
+                            <div style="text-align: center;">
+                                <div style="font-size: 2rem; font-weight: bold; color: ${color};">${data.bmi}</div>
+                                <div style="font-size: 0.9rem; color: #666;">BMI Score</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="font-size: 1.5rem; font-weight: bold; color: ${color};">${data.category}</div>
+                                <div style="font-size: 0.9rem; color: #666;">Category</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="font-size: 1.2rem; color: ${color};"><i class="fas fa-heart"></i></div>
+                                <div style="font-size: 0.9rem; color: #666;">Health</div>
+                            </div>
+                        </div>
+                        <div style="background: white; padding: 15px; border-radius: 8px;">
+                            <strong>Advice:</strong> ${data.advice}
+                        </div>
+                    </div>
                 `;
                 unlockAchievement('Health Tracker');
             }
-            bmiResult.style.display = 'block';
         } catch (error) {
-            bmiResult.innerHTML = '<div style="color: #e74c3c;">Error calculating BMI</div>';
-            bmiResult.style.display = 'block';
+            bmiResult.innerHTML = '<div style="color: #e74c3c;">Error calculating BMI. Please try again.</div>';
         }
     });
+}
 
-    // Read More buttons for articles
-    const readMoreButtons = document.querySelectorAll('.read-more');
-    const modal = document.getElementById('articleModal');
-    const modalContent = document.getElementById('modalContent');
-    const closeModal = document.querySelector('.close-modal');
-
-    readMoreButtons.forEach((button, index) => {
-        button.addEventListener('click', async function() {
-            try {
-                const response = await fetch(`/get_article/${index + 1}`);
-                const data = await response.json();
-                
-                modalContent.innerHTML = `
-                    <h3>${data.title}</h3>
-                    <div class="article-full-content">${data.content}</div>
-                `;
-                modal.style.display = 'flex';
-                unlockAchievement('Knowledge Seeker');
-            } catch (error) {
-                modalContent.innerHTML = '<p>Error loading article. Please try again.</p>';
-                modal.style.display = 'flex';
-            }
-        });
-    });
-
-    closeModal.addEventListener('click', function() {
-        modal.style.display = 'none';
-    });
-
-    // Close modal when clicking outside
-    window.addEventListener('click', function(e) {
-        if (e.target === modal) {
-            modal.style.display = 'none';
-        }
-    });
-
-    // Navigation button interactions
+// ========== NAVIGATION ==========
+function initNavigation() {
     const navButtons = document.querySelectorAll('.nav-btn');
     const sections = document.querySelectorAll('.content-section');
 
@@ -153,89 +292,125 @@ document.addEventListener('DOMContentLoaded', function() {
     if (navButtons.length > 0) {
         navButtons[0].classList.add('active');
     }
+}
 
-    // Progress tracker simulation
+// ========== PROGRESS TRACKER ==========
+function initProgressTracker() {
     const progressFill = document.getElementById('progressFill');
-    let progress = 0;
+    if (!progressFill) return;
     
-    function updateProgress() {
-        progress += Math.random() * 10;
-        if (progress > 100) {
-            progress = 100;
-            unlockAchievement('Fitness Master');
-        }
-        progressFill.style.width = `${progress}%`;
-    }
+    let progress = localStorage.getItem('vitalityhub_progress') || 0;
+    progressFill.style.width = `${progress}%`;
     
-    // Simulate progress when buttons are clicked
-    const allButtons = document.querySelectorAll('.btn, .nav-btn, .read-more');
-    allButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            if (Math.random() > 0.7) { // 30% chance to update progress
-                updateProgress();
+    // Update progress on various interactions
+    const interactiveElements = document.querySelectorAll('.btn, .nav-btn, .read-more');
+    interactiveElements.forEach(element => {
+        element.addEventListener('click', function() {
+            if (Math.random() > 0.6) { // 40% chance to increase progress
+                progress = Math.min(100, parseFloat(progress) + Math.random() * 5);
+                progressFill.style.width = `${progress}%`;
+                localStorage.setItem('vitalityhub_progress', progress);
+                
+                if (progress >= 100) {
+                    unlockAchievement('Fitness Master');
+                }
             }
         });
     });
+}
 
-    // Achievement system
-    const achievements = new Set();
-    
-    function unlockAchievement(name) {
-        if (!achievements.has(name)) {
-            achievements.add(name);
+// ========== ACHIEVEMENTS SYSTEM ==========
+function initAchievements() {
+    window.unlockAchievement = function(name) {
+        if (!localStorage.getItem('achievement_' + name)) {
+            localStorage.setItem('achievement_' + name, 'unlocked');
             showNotification(`Achievement Unlocked: ${name}!`);
             
             // Add to achievements list
             const achievementsList = document.getElementById('achievementsList');
             if (achievementsList) {
-                const div = document.createElement('div');
-                div.className = 'achievement';
-                div.innerHTML = `<i class="fas fa-trophy"></i> ${name}`;
-                achievementsList.appendChild(div);
+                const achievement = document.createElement('div');
+                achievement.className = 'achievement';
+                achievement.innerHTML = `
+                    <i class="fas fa-trophy" style="color: #f39c12;"></i> 
+                    <span>${name}</span>
+                    <small style="margin-left: auto; color: #666;">Just now</small>
+                `;
+                achievementsList.appendChild(achievement);
+                
+                // Add animation
+                achievement.style.animation = 'slideIn 0.5s ease';
             }
         }
-    }
+    };
     
-    function showNotification(message) {
-        const notification = document.createElement('div');
-        notification.style.cssText = `
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: linear-gradient(to right, var(--primary), var(--secondary));
-            color: white;
-            padding: 15px 25px;
-            border-radius: 10px;
-            z-index: 1001;
-            animation: slideIn 0.5s ease;
-        `;
-        notification.innerHTML = `<i class="fas fa-bell"></i> ${message}`;
-        document.body.appendChild(notification);
-        
-        setTimeout(() => {
-            notification.style.animation = 'slideOut 0.5s ease';
-            setTimeout(() => notification.remove(), 500);
-        }, 3000);
+    // Load existing achievements
+    const achievementsList = document.getElementById('achievementsList');
+    if (achievementsList) {
+        const achievements = ['Welcome to VitalityHub!'];
+        achievements.forEach(ach => {
+            const div = document.createElement('div');
+            div.className = 'achievement';
+            div.innerHTML = `<i class="fas fa-star" style="color: #26d0ce;"></i> ${ach}`;
+            achievementsList.appendChild(div);
+        });
     }
+}
 
-    // Add CSS for animations
+function showNotification(message) {
+    const notification = document.createElement('div');
+    notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: linear-gradient(to right, #1a2980, #26d0ce);
+        color: white;
+        padding: 15px 25px;
+        border-radius: 10px;
+        z-index: 1001;
+        animation: slideInRight 0.5s ease;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        max-width: 350px;
+    `;
+    notification.innerHTML = `
+        <i class="fas fa-trophy" style="font-size: 1.2rem;"></i>
+        <div>${message}</div>
+    `;
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.style.animation = 'slideOutRight 0.5s ease';
+        setTimeout(() => notification.remove(), 500);
+    }, 4000);
+}
+
+// Add animation styles
+(function() {
     const style = document.createElement('style');
     style.textContent = `
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(-10px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        @keyframes slideIn {
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+        @keyframes slideInRight {
             from { transform: translateX(100%); opacity: 0; }
             to { transform: translateX(0); opacity: 1; }
         }
-        @keyframes slideOut {
+        @keyframes slideOutRight {
             from { transform: translateX(0); opacity: 1; }
             to { transform: translateX(100%); opacity: 0; }
         }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
     `;
     document.head.appendChild(style);
-
-    // Initialize with a daily tip
-    tipButton.click();
-});
+})();
