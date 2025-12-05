@@ -11,23 +11,70 @@
     <div class="container">
         <header>
             <h1><i class="fas fa-heartbeat"></i> VitalityHub</h1>
-            <p>Your ultimate guide to health, fitness, and well-being</p>
+            <p>Your ultimate guide to health, fitness, and well-being. Join thousands in their journey to better health!</p>
         </header>
 
         <nav>
-            <button class="nav-btn" data-target="articles"><i class="fas fa-newspaper"></i> Articles</button>
-            <button class="nav-btn" data-target="interactive"><i class="fas fa-dumbbell"></i> Daily Tips</button>
+            <button class="nav-btn active" data-target="articles"><i class="fas fa-newspaper"></i> Articles</button>
+            <button class="nav-btn" data-target="tools"><i class="fas fa-calculator"></i> Health Tools</button>
+            <button class="nav-btn" data-target="workouts"><i class="fas fa-dumbbell"></i> Workout Plans</button>
+            <button class="nav-btn" data-target="interactive"><i class="fas fa-lightbulb"></i> Daily Tips</button>
             <button class="nav-btn" data-target="feedback"><i class="fas fa-comment"></i> Feedback</button>
         </nav>
 
         <section id="articles" class="content-section">
             <h2><i class="fas fa-book-open"></i> Health & Sport Articles</h2>
+            <p>Explore our collection of expert-written articles to enhance your health journey.</p>
             <div class="articles-grid">
                 {% for article in articles %}
                 <div class="article-card">
                     <h3>{{ article.title }}</h3>
                     <p>{{ article.content }}</p>
-                    <button class="btn read-more">Read More</button>
+                    <button class="btn read-more"><i class="fas fa-book-reader"></i> Read More</button>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+
+        <section id="tools" class="content-section">
+            <h2><i class="fas fa-tools"></i> Health Tools</h2>
+            <div class="bmi-calculator">
+                <h3><i class="fas fa-weight-scale"></i> BMI Calculator</h3>
+                <form id="bmiForm">
+                    <div class="input-group">
+                        <label for="weight">Weight (kg):</label>
+                        <input type="number" id="weight" placeholder="Enter weight in kg" step="0.1" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="height">Height (cm):</label>
+                        <input type="number" id="height" placeholder="Enter height in cm" required>
+                    </div>
+                    <button type="submit" class="btn"><i class="fas fa-calculator"></i> Calculate BMI</button>
+                </form>
+                <div id="bmiResult"></div>
+            </div>
+            
+            <div style="margin-top: 40px;">
+                <h3><i class="fas fa-chart-line"></i> Weekly Progress Tracker</h3>
+                <p>Your fitness progress this week:</p>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <p><small>Click on any button to potentially increase your progress!</small></p>
+            </div>
+        </section>
+
+        <section id="workouts" class="content-section">
+            <h2><i class="fas fa-dumbbell"></i> Workout Plans</h2>
+            <p>Choose a plan that fits your level and goals.</p>
+            <div class="workout-plans">
+                {% for plan in workout_plans %}
+                <div class="plan-card">
+                    <h4>{{ plan.name }}</h4>
+                    <p><i class="fas fa-clock"></i> Duration: {{ plan.duration }}</p>
+                    <p><i class="fas fa-signal"></i> Level: <span class="level-{{ plan.level|lower }}">{{ plan.level }}</span></p>
+                    <p><i class="fas fa-fire"></i> Calories: {{ plan.calories }}</p>
+                    <button class="btn" onclick="unlockAchievement('Workout Starter')"><i class="fas fa-play"></i> Start Plan</button>
                 </div>
                 {% endfor %}
             </div>
@@ -36,25 +83,49 @@
         <section id="interactive" class="content-section interactive-box">
             <h2><i class="fas fa-lightbulb"></i> Daily Health Tip</h2>
             <p id="dailyTip">Click the button to receive a random health tip!</p>
-            <button class="btn" id="getTipBtn">Get Today's Tip</button>
-            <p><small>Our tips are designed to enhance your physical activity and nutrition.</small></p>
+            <button class="btn accent" id="getTipBtn"><i class="fas fa-lightbulb"></i> Get New Tip</button>
+            <p><small>Our tips are scientifically proven to enhance your physical activity and nutrition.</small></p>
+            
+            <div style="margin-top: 30px;">
+                <h3><i class="fas fa-trophy"></i> Your Achievements</h3>
+                <div id="achievementsList">
+                    <div class="achievement">
+                        <i class="fas fa-star"></i> Welcome to VitalityHub!
+                    </div>
+                </div>
+            </div>
         </section>
 
         <section id="feedback" class="content-section">
             <h2><i class="fas fa-user-edit"></i> Share Your Feedback</h2>
-            <p>We value your opinion. Share your thoughts or suggest new topics.</p>
+            <p>We value your opinion. Share your thoughts or suggest new topics to help us improve.</p>
             <form class="feedback-form" id="feedbackForm">
                 <input type="text" id="name" placeholder="Your Name" required>
                 <textarea id="message" rows="5" placeholder="Your message or suggestion..." required></textarea>
-                <button type="submit" class="btn">Submit Feedback</button>
+                <button type="submit" class="btn"><i class="fas fa-paper-plane"></i> Submit Feedback</button>
                 <p id="feedbackMessage"></p>
             </form>
         </section>
 
         <footer>
+            <div class="social-icons">
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+            </div>
             <p>VitalityHub &copy; 2025 | Promoting Healthy Lifestyles Through Sport and Nutrition</p>
             <p><i class="fas fa-envelope"></i> contact@vitalityhub.com | <i class="fas fa-phone"></i> +1 234 567 890</p>
+            <p style="font-size: 0.8rem; margin-top: 10px;">This website is a prototype for educational purposes.</p>
         </footer>
+    </div>
+
+    <!-- Modal for articles -->
+    <div class="modal" id="articleModal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div id="modalContent"></div>
+        </div>
     </div>
 
     <script src="{{ url_for('static', filename='script.js') }}"></script>
