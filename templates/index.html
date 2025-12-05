@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VitalityHub | Health & Sport</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-heartbeat"></i> VitalityHub</h1>
+            <p>Your ultimate guide to health, fitness, and well-being</p>
+        </header>
+
+        <nav>
+            <button class="nav-btn" data-target="articles"><i class="fas fa-newspaper"></i> Articles</button>
+            <button class="nav-btn" data-target="interactive"><i class="fas fa-dumbbell"></i> Daily Tips</button>
+            <button class="nav-btn" data-target="feedback"><i class="fas fa-comment"></i> Feedback</button>
+        </nav>
+
+        <section id="articles" class="content-section">
+            <h2><i class="fas fa-book-open"></i> Health & Sport Articles</h2>
+            <div class="articles-grid">
+                {% for article in articles %}
+                <div class="article-card">
+                    <h3>{{ article.title }}</h3>
+                    <p>{{ article.content }}</p>
+                    <button class="btn read-more">Read More</button>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+
+        <section id="interactive" class="content-section interactive-box">
+            <h2><i class="fas fa-lightbulb"></i> Daily Health Tip</h2>
+            <p id="dailyTip">Click the button to receive a random health tip!</p>
+            <button class="btn" id="getTipBtn">Get Today's Tip</button>
+            <p><small>Our tips are designed to enhance your physical activity and nutrition.</small></p>
+        </section>
+
+        <section id="feedback" class="content-section">
+            <h2><i class="fas fa-user-edit"></i> Share Your Feedback</h2>
+            <p>We value your opinion. Share your thoughts or suggest new topics.</p>
+            <form class="feedback-form" id="feedbackForm">
+                <input type="text" id="name" placeholder="Your Name" required>
+                <textarea id="message" rows="5" placeholder="Your message or suggestion..." required></textarea>
+                <button type="submit" class="btn">Submit Feedback</button>
+                <p id="feedbackMessage"></p>
+            </form>
+        </section>
+
+        <footer>
+            <p>VitalityHub &copy; 2025 | Promoting Healthy Lifestyles Through Sport and Nutrition</p>
+            <p><i class="fas fa-envelope"></i> contact@vitalityhub.com | <i class="fas fa-phone"></i> +1 234 567 890</p>
+        </footer>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
