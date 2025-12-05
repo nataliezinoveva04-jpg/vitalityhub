@@ -3,130 +3,398 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VitalityHub | Health & Sport</title>
+    <title>VitalityHub | Health & Fitness Portal</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1><i class="fas fa-heartbeat"></i> VitalityHub</h1>
-            <p>Your ultimate guide to health, fitness, and well-being. Join thousands in their journey to better health!</p>
-        </header>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <i class="fas fa-heartbeat"></i>
+                <span>Vitality<span class="logo-highlight">Hub</span></span>
+            </a>
+            <div class="nav-links">
+                <a href="#home" class="nav-link active"><i class="fas fa-home"></i> Home</a>
+                <a href="#articles" class="nav-link"><i class="fas fa-newspaper"></i> Articles</a>
+                <a href="#tools" class="nav-link"><i class="fas fa-tools"></i> Tools</a>
+                <a href="#workouts" class="nav-link"><i class="fas fa-dumbbell"></i> Workouts</a>
+                <a href="#community" class="nav-link"><i class="fas fa-users"></i> Community</a>
+            </div>
+            <button class="cta-button" id="joinBtn">Join Free</button>
+        </div>
+    </nav>
 
-        <nav>
-            <button class="nav-btn active" data-target="articles"><i class="fas fa-newspaper"></i> Articles</button>
-            <button class="nav-btn" data-target="tools"><i class="fas fa-calculator"></i> Health Tools</button>
-            <button class="nav-btn" data-target="workouts"><i class="fas fa-dumbbell"></i> Workout Plans</button>
-            <button class="nav-btn" data-target="interactive"><i class="fas fa-lightbulb"></i> Daily Tips</button>
-            <button class="nav-btn" data-target="feedback"><i class="fas fa-comment"></i> Feedback</button>
-        </nav>
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    Transform Your <span class="highlight">Health</span> & 
+                    <span class="highlight">Fitness</span> Journey
+                </h1>
+                <p class="hero-subtitle">
+                    Expert guidance, personalized plans, and a supportive community 
+                    to help you achieve your wellness goals.
+                </p>
+                <div class="hero-buttons">
+                    <button class="btn primary-btn" onclick="scrollToSection('articles')">
+                        <i class="fas fa-play-circle"></i> Get Started
+                    </button>
+                    <button class="btn secondary-btn" onclick="scrollToSection('tools')">
+                        <i class="fas fa-video"></i> Watch Demo
+                    </button>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <h3>10K+</h3>
+                        <p>Active Members</p>
+                    </div>
+                    <div class="stat">
+                        <h3>500+</h3>
+                        <p>Workout Plans</p>
+                    </div>
+                    <div class="stat">
+                        <h3>24/7</h3>
+                        <p>Expert Support</p>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="image-placeholder">
+                    <i class="fas fa-running"></i>
+                    <div class="floating-elements">
+                        <span class="floating-icon"><i class="fas fa-apple-alt"></i></span>
+                        <span class="floating-icon"><i class="fas fa-heart"></i></span>
+                        <span class="floating-icon"><i class="fas fa-dumbbell"></i></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-        <section id="articles" class="content-section">
-            <h2><i class="fas fa-book-open"></i> Health & Sport Articles</h2>
-            <p>Explore our collection of expert-written articles to enhance your health journey.</p>
-            <div class="articles-grid">
-                {% for article in articles %}
-                <div class="article-card">
+    <!-- Articles Section -->
+    <section id="articles" class="section">
+        <div class="section-header">
+            <h2><i class="fas fa-book-open"></i> Featured Articles</h2>
+            <p>Learn from our expert-curated health and fitness content</p>
+        </div>
+        
+        <div class="articles-grid">
+            {% for article in articles %}
+            <article class="article-card" data-article-id="{{ article.id }}">
+                <div class="article-badge">
+                    <span class="badge">{{ ['Beginner', 'Intermediate', 'Advanced'][loop.index0] }}</span>
+                    <span class="read-time"><i class="fas fa-clock"></i> {{ [5, 8, 10][loop.index0] }} min</span>
+                </div>
+                <div class="article-content">
                     <h3>{{ article.title }}</h3>
                     <p>{{ article.content }}</p>
-                    <button class="btn read-more"><i class="fas fa-book-reader"></i> Read More</button>
+                    <div class="article-footer">
+                        <button class="btn read-more-btn" data-article-id="{{ article.id }}">
+                            <i class="fas fa-book-reader"></i> Read Full Article
+                        </button>
+                        <div class="article-actions">
+                            <button class="icon-btn" title="Save"><i class="far fa-bookmark"></i></button>
+                            <button class="icon-btn" title="Share"><i class="fas fa-share"></i></button>
+                        </div>
+                    </div>
                 </div>
-                {% endfor %}
-            </div>
-        </section>
+            </article>
+            {% endfor %}
+        </div>
+        
+        <div class="section-footer">
+            <button class="btn outline-btn" onclick="loadMoreArticles()">
+                <i class="fas fa-plus"></i> Load More Articles
+            </button>
+        </div>
+    </section>
 
-        <section id="tools" class="content-section">
-            <h2><i class="fas fa-tools"></i> Health Tools</h2>
-            <div class="bmi-calculator">
-                <h3><i class="fas fa-weight-scale"></i> BMI Calculator</h3>
-                <form id="bmiForm">
-                    <div class="input-group">
-                        <label for="weight">Weight (kg):</label>
-                        <input type="number" id="weight" placeholder="Enter weight in kg" step="0.1" required>
+    <!-- Health Tools Section -->
+    <section id="tools" class="section bg-light">
+        <div class="section-header">
+            <h2><i class="fas fa-calculator"></i> Health Tools</h2>
+            <p>Track and improve your health with our interactive tools</p>
+        </div>
+        
+        <div class="tools-container">
+            <div class="tool-card">
+                <div class="tool-icon">
+                    <i class="fas fa-weight-scale"></i>
+                </div>
+                <h3>BMI Calculator</h3>
+                <p>Calculate your Body Mass Index and get personalized recommendations</p>
+                <form class="bmi-form" id="bmiForm">
+                    <div class="form-group">
+                        <label for="weight"><i class="fas fa-weight-hanging"></i> Weight (kg)</label>
+                        <input type="number" id="weight" placeholder="e.g., 70" step="0.1" required>
                     </div>
-                    <div class="input-group">
-                        <label for="height">Height (cm):</label>
-                        <input type="number" id="height" placeholder="Enter height in cm" required>
+                    <div class="form-group">
+                        <label for="height"><i class="fas fa-ruler-vertical"></i> Height (cm)</label>
+                        <input type="number" id="height" placeholder="e.g., 175" required>
                     </div>
-                    <button type="submit" class="btn"><i class="fas fa-calculator"></i> Calculate BMI</button>
+                    <button type="submit" class="btn primary-btn">
+                        <i class="fas fa-calculator"></i> Calculate BMI
+                    </button>
                 </form>
-                <div id="bmiResult"></div>
+                <div class="bmi-result" id="bmiResult"></div>
             </div>
             
-            <div style="margin-top: 40px;">
-                <h3><i class="fas fa-chart-line"></i> Weekly Progress Tracker</h3>
-                <p>Your fitness progress this week:</p>
-                <div class="progress-bar">
-                    <div class="progress-fill" id="progressFill"></div>
+            <div class="tool-card">
+                <div class="tool-icon">
+                    <i class="fas fa-fire"></i>
                 </div>
-                <p><small>Click on any button to potentially increase your progress!</small></p>
+                <h3>Calorie Tracker</h3>
+                <p>Monitor your daily calorie intake and expenditure</p>
+                <div class="calorie-display">
+                    <div class="calorie-item">
+                        <span>Consumed</span>
+                        <strong>1,850</strong>
+                        <small>cal</small>
+                    </div>
+                    <div class="calorie-item">
+                        <span>Burned</span>
+                        <strong>450</strong>
+                        <small>cal</small>
+                    </div>
+                    <div class="calorie-item total">
+                        <span>Net</span>
+                        <strong>1,400</strong>
+                        <small>cal</small>
+                    </div>
+                </div>
+                <button class="btn outline-btn" onclick="trackCalories()">
+                    <i class="fas fa-plus"></i> Add Meal
+                </button>
             </div>
-        </section>
+            
+            <div class="tool-card">
+                <div class="tool-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <h3>Progress Tracker</h3>
+                <p>Visualize your fitness journey</p>
+                <div class="progress-chart">
+                    <div class="progress-item">
+                        <span>Weekly Goal</span>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 75%"></div>
+                        </div>
+                        <span>75%</span>
+                    </div>
+                    <div class="progress-item">
+                        <span>Monthly Goal</span>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 45%"></div>
+                        </div>
+                        <span>45%</span>
+                    </div>
+                </div>
+                <button class="btn primary-btn" onclick="updateProgress()">
+                    <i class="fas fa-sync"></i> Update Progress
+                </button>
+            </div>
+        </div>
+    </section>
 
-        <section id="workouts" class="content-section">
+    <!-- Workout Plans -->
+    <section id="workouts" class="section">
+        <div class="section-header">
             <h2><i class="fas fa-dumbbell"></i> Workout Plans</h2>
-            <p>Choose a plan that fits your level and goals.</p>
-            <div class="workout-plans">
-                {% for plan in workout_plans %}
-                <div class="plan-card">
-                    <h4>{{ plan.name }}</h4>
-                    <p><i class="fas fa-clock"></i> Duration: {{ plan.duration }}</p>
-                    <p><i class="fas fa-signal"></i> Level: <span class="level-{{ plan.level|lower }}">{{ plan.level }}</span></p>
-                    <p><i class="fas fa-fire"></i> Calories: {{ plan.calories }}</p>
-                    <button class="btn" onclick="unlockAchievement('Workout Starter')"><i class="fas fa-play"></i> Start Plan</button>
+            <p>Choose from our expertly designed workout routines</p>
+        </div>
+        
+        <div class="workout-tabs">
+            <button class="tab-btn active" data-level="all">All Levels</button>
+            <button class="tab-btn" data-level="beginner">Beginner</button>
+            <button class="tab-btn" data-level="intermediate">Intermediate</button>
+            <button class="tab-btn" data-level="advanced">Advanced</button>
+        </div>
+        
+        <div class="workouts-grid">
+            {% for plan in workout_plans %}
+            <div class="workout-card" data-level="{{ plan.level|lower }}">
+                <div class="workout-header">
+                    <h3>{{ plan.name }}</h3>
+                    <span class="workout-level level-{{ plan.level|lower }}">{{ plan.level }}</span>
                 </div>
-                {% endfor %}
+                <div class="workout-details">
+                    <div class="detail">
+                        <i class="fas fa-clock"></i>
+                        <span>{{ plan.duration }}</span>
+                    </div>
+                    <div class="detail">
+                        <i class="fas fa-fire"></i>
+                        <span>{{ plan.calories }} cal</span>
+                    </div>
+                    <div class="detail">
+                        <i class="fas fa-repeat"></i>
+                        <span>3x/week</span>
+                    </div>
+                </div>
+                <p>Perfect for {{ ['new starters', 'regular exercisers', 'fitness enthusiasts'][loop.index0] }}</p>
+                <div class="workout-actions">
+                    <button class="btn primary-btn" onclick="startWorkout({{ plan.id }})">
+                        <i class="fas fa-play"></i> Start Plan
+                    </button>
+                    <button class="btn outline-btn" onclick="viewDetails({{ plan.id }})">
+                        <i class="fas fa-info-circle"></i> Details
+                    </button>
+                </div>
             </div>
-        </section>
+            {% endfor %}
+        </div>
+    </section>
 
-        <section id="interactive" class="content-section interactive-box">
-            <h2><i class="fas fa-lightbulb"></i> Daily Health Tip</h2>
-            <p id="dailyTip">Click the button to receive a random health tip!</p>
-            <button class="btn accent" id="getTipBtn"><i class="fas fa-lightbulb"></i> Get New Tip</button>
-            <p><small>Our tips are scientifically proven to enhance your physical activity and nutrition.</small></p>
+    <!-- Daily Tip Section -->
+    <section id="community" class="section bg-gradient">
+        <div class="tip-container">
+            <div class="tip-content">
+                <h2><i class="fas fa-lightbulb"></i> Daily Health Tip</h2>
+                <div class="tip-box" id="dailyTip">
+                    <p>Stay hydrated throughout the day! Drinking enough water boosts metabolism and energy levels.</p>
+                </div>
+                <div class="tip-actions">
+                    <button class="btn primary-btn" id="getTipBtn">
+                        <i class="fas fa-random"></i> New Tip
+                    </button>
+                    <button class="btn outline-btn" onclick="saveTip()">
+                        <i class="far fa-bookmark"></i> Save Tip
+                    </button>
+                </div>
+            </div>
             
-            <div style="margin-top: 30px;">
+            <div class="achievements">
                 <h3><i class="fas fa-trophy"></i> Your Achievements</h3>
-                <div id="achievementsList">
+                <div class="achievements-grid" id="achievementsList">
                     <div class="achievement">
-                        <i class="fas fa-star"></i> Welcome to VitalityHub!
+                        <i class="fas fa-star"></i>
+                        <span>First Visit</span>
+                    </div>
+                    <div class="achievement">
+                        <i class="fas fa-heart"></i>
+                        <span>Healthy Start</span>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section id="feedback" class="content-section">
-            <h2><i class="fas fa-user-edit"></i> Share Your Feedback</h2>
-            <p>We value your opinion. Share your thoughts or suggest new topics to help us improve.</p>
-            <form class="feedback-form" id="feedbackForm">
-                <input type="text" id="name" placeholder="Your Name" required>
-                <textarea id="message" rows="5" placeholder="Your message or suggestion..." required></textarea>
-                <button type="submit" class="btn"><i class="fas fa-paper-plane"></i> Submit Feedback</button>
-                <p id="feedbackMessage"></p>
-            </form>
-        </section>
-
-        <footer>
-            <div class="social-icons">
-                <a href="#"><i class="fab fa-facebook"></i></a>
-                <a href="#"><i class="fab fa-twitter"></i></a>
-                <a href="#"><i class="fab fa-instagram"></i></a>
-                <a href="#"><i class="fab fa-youtube"></i></a>
+    <!-- Feedback Section -->
+    <section class="section">
+        <div class="feedback-container">
+            <div class="feedback-content">
+                <h2><i class="fas fa-comment-dots"></i> Share Your Feedback</h2>
+                <p>We value your input to improve our platform</p>
+                
+                <form class="feedback-form" id="feedbackForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="name"><i class="fas fa-user"></i> Name</label>
+                            <input type="text" id="name" placeholder="Your name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email"><i class="fas fa-envelope"></i> Email</label>
+                            <input type="email" id="email" placeholder="your@email.com" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="category"><i class="fas fa-tag"></i> Category</label>
+                        <select id="category">
+                            <option value="suggestion">Suggestion</option>
+                            <option value="bug">Bug Report</option>
+                            <option value="question">Question</option>
+                            <option value="compliment">Compliment</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message"><i class="fas fa-edit"></i> Message</label>
+                        <textarea id="message" rows="4" placeholder="Share your thoughts..." required></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn primary-btn">
+                        <i class="fas fa-paper-plane"></i> Submit Feedback
+                    </button>
+                    <div class="feedback-message" id="feedbackMessage"></div>
+                </form>
             </div>
-            <p>VitalityHub &copy; 2025 | Promoting Healthy Lifestyles Through Sport and Nutrition</p>
-            <p><i class="fas fa-envelope"></i> contact@vitalityhub.com | <i class="fas fa-phone"></i> +1 234 567 890</p>
-            <p style="font-size: 0.8rem; margin-top: 10px;">This website is a prototype for educational purposes.</p>
-        </footer>
-    </div>
+        </div>
+    </section>
 
-    <!-- Modal for articles -->
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3><i class="fas fa-heartbeat"></i> VitalityHub</h3>
+                <p>Your partner in health and fitness journey since 2023.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <a href="#home">Home</a>
+                <a href="#articles">Articles</a>
+                <a href="#tools">Health Tools</a>
+                <a href="#workouts">Workout Plans</a>
+                <a href="#community">Community</a>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Resources</h4>
+                <a href="#">Nutrition Guide</a>
+                <a href="#">Exercise Library</a>
+                <a href="#">Wellness Blog</a>
+                <a href="#">FAQ</a>
+                <a href="#">Support</a>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Contact Us</h4>
+                <p><i class="fas fa-envelope"></i> contact@vitalityhub.com</p>
+                <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
+                <p><i class="fas fa-map-marker-alt"></i> 123 Fitness Street</p>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2023 VitalityHub. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+            <p class="disclaimer">This website is for educational purposes only. Consult a healthcare professional for medical advice.</p>
+        </div>
+    </footer>
+
+    <!-- Article Modal -->
     <div class="modal" id="articleModal">
         <div class="modal-content">
-            <span class="close-modal">&times;</span>
-            <div id="modalContent"></div>
+            <div class="modal-header">
+                <h2 id="modalTitle">Article Title</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body" id="modalContent">
+                <!-- Article content will be loaded here -->
+            </div>
+            <div class="modal-footer">
+                <button class="btn outline-btn" onclick="printArticle()">
+                    <i class="fas fa-print"></i> Print
+                </button>
+                <button class="btn primary-btn" onclick="shareArticle()">
+                    <i class="fas fa-share"></i> Share
+                </button>
+            </div>
         </div>
     </div>
+
+    <!-- Notification Toast -->
+    <div class="toast" id="toast"></div>
 
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
