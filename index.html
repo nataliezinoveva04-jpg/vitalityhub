@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VitalityHub | Health & Fitness Redefined</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #00C9A7;
+            --secondary: #845EC2;
+            --accent: #FF6F91;
+            --dark: #2D3047;
+            --light: #F7F9FC;
+            --gradient: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --radius: 16px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 15px 0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 45px;
+            height: 45px;
+            background: var(--gradient);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .logo-text h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.8rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 900;
+        }
+
+        .logo-text p {
+            font-size: 0.8rem;
+            color: #666;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        nav a {
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1rem;
+            padding: 8px 16px;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        nav a:hover {
+            color: var(--primary);
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 2px;
+            background: var(--gradient);
+            transition: width 0.3s ease;
+        }
+
+        nav a:hover::after {
+            width: 70%;
+        }
+
+        .nav-cta {
+            background: var(--gradient);
+            color: white !important;
+            padding: 10px 25px !important;
+        }
+
+        .nav-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 201, 167, 0.3);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 180px 0 120px;
+            background: linear-gradient(rgba(45, 48, 71, 0.9), rgba(45, 48, 71, 0.9)), 
+                        url('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 4rem;
+            font-weight: 900;
+            margin-bottom: 20px;
+            line-height: 1.2;
+            background: linear-gradient(to right, #00C9A7, #845EC2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 40px;
+            color: rgba(255, 255, 255, 0.9);
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary, .btn-secondary {
+            padding: 16px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-primary {
+            background: var(--gradient);
+            color: white;
+            box-shadow: 0 10px 30px rgba(0, 201, 167, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 201, 167, 0.6);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+        }
+
+        /* Stats Section */
+        .stats {
+            background: white;
+            padding: 80px 0;
+            margin-top: -60px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            position: relative;
+            z-index: 3;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            text-align: center;
+        }
+
+        .stat-item h3 {
+            font-size: 3rem;
+            font-weight: 800;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .stat-item p {
+            color: #666;
+            font-weight: 500;
+        }
+
+        /* Features */
+        .features {
+            padding: 120px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-title h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--gradient);
+            border-radius: 2px;
+        }
+
+        .section-title p {
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 80px;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 40px 30px;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--gradient);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+        }
+
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, rgba(0, 201, 167, 0.1) 0%, rgba(132, 94, 194, 0.1) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 25px;
+            font-size: 1.8rem;
+            color: var(--primary);
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+
+        /* Interactive Dashboard */
+        .dashboard {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 100px 0;
+            border-radius: var(--radius);
+            margin: 40px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dashboard::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            opacity: 0.2;
+        }
+
+        .dashboard-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .dashboard-preview {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: var(--radius);
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+        }
+
+        .fitness-tracker {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            color: var(--dark);
+        }
+
+        .tracker-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .tracker-header h4 {
+            color: var(--secondary);
+        }
+
+        .progress-ring {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            margin: 20px auto;
+        }
+
+        .progress-ring circle {
+            fill: none;
+            stroke-width: 8;
+            stroke-linecap: round;
+            transform: rotate(-90deg);
+            transform-origin: 50% 50%;
+        }
+
+        .progress-bg {
+            stroke: #f0f0f0;
+        }
+
+        .progress-bar {
+            stroke: var(--primary);
+            stroke-dasharray: 314;
+            stroke-dashoffset: 94;
+            transition: stroke-dashoffset 1s ease;
+        }
+
+        .progress-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+
+        .progress-text strong {
+            display: block;
+            font-size: 1.8rem;
+            color: var(--dark);
+        }
+
+        .activity-list {
+            margin-top: 20px;
+        }
+
+        .activity-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        /* Articles */
+        .articles {
+            padding: 100px 0;
+        }
+
+        .articles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 30px;
+        }
+
+        .article-card {
+            background: white;
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+        }
+
+        .article-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+        }
+
+        .article-image {
+            height: 220px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .article-tag {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--gradient);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .article-content {
+            padding: 30px;
+        }
+
+        .article-meta {
+            display: flex;
+            gap: 20px;
+            color: #888;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+
+        .article-content h3 {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+
+        .read-more {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 20px;
+            transition: gap 0.3s ease;
+        }
+
+        .read-more:hover {
+            gap: 15px;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 80px 0 30px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 50px;
+            margin-bottom: 50px;
+        }
+
+        .footer-col h4 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.3rem;
+            margin-bottom: 25px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .footer-col h4::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background: var(--primary);
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 12px;
+        }
+
+        .footer-col a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .footer-col a:hover {
+            color: var(--primary);
+            padding-left: 5px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .newsletter {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 25px;
+            border-radius: 12px;
+            margin-top: 20px;
+        }
+
+        .newsletter input {
+            width: 100%;
+            padding: 12px 15px;
+            border: none;
+            border-radius: 50px;
+            margin-bottom: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .newsletter input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.9rem;
+        }
+
+        /* Animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .floating {
+            animation: float 5s ease-in-out infinite;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .dashboard-content {
+                grid-template-columns: 1fr;
+            }
+
+            .hero h1 {
+                font-size: 3rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .features-grid,
+            .articles-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header id="header">
+        <div class="container header-content">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-heartbeat"></i>
+                </div>
+                <div class="logo-text">
+                    <h1>VitalityHub</h1>
+                    <p>Health & Performance</p>
+                </div>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#dashboard">Dashboard</a></li>
+                    <li><a href="#articles">Articles</a></li>
+                    <li><a href="/about">About</a></li>
+                    <li><a href="#dashboard" class="nav-cta">Get Started</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-content floating">
+                <h1>Elevate Your Wellness Journey</h1>
+                <p>Discover a holistic approach to health and fitness with cutting-edge tools, expert guidance, and a community dedicated to sustainable wellness transformation.</p>
+                <div class="cta-buttons">
+                    <a href="#dashboard" class="btn-primary">
+                        <i class="fas fa-rocket"></i> Start Free Trial
+                    </a>
+                    <a href="#features" class="btn-secondary">
+                        <i class="fas fa-play-circle"></i> Watch Demo
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <h3>10K+</h3>
+                    <p>Active Members</p>
+                </div>
+                <div class="stat-item">
+                    <h3>500+</h3>
+                    <p>Expert Articles</p>
+                </div>
+                <div class="stat-item">
+                    <h3>50+</h3>
+                    <p>Training Programs</p>
+                </div>
+                <div class="stat-item">
+                    <h3>24/7</h3>
+                    <p>Expert Support</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section class="features" id="features">
+        <div class="container">
+            <div class="section-title">
+                <h2>Comprehensive Wellness Ecosystem</h2>
+                <p>Our platform integrates multiple dimensions of health to deliver personalized results</p>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-dumbbell"></i>
+                    </div>
+                    <h3>Smart Workouts</h3>
+                    <p>AI-powered exercise routines adapt to your progress, preferences, and performance metrics in real-time.</p>
+                    <a href="#" class="read-more">Explore <i class="fas fa-arrow-right"></i></a>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-apple-alt"></i>
+                    </div>
+                    <h3>Nutrition Intelligence</h3>
+                    <p>Personalized meal planning with macro tracking, recipe suggestions, and dietary optimization algorithms.</p>
+                    <a href="#" class="read-more">Learn More <i class="fas fa-arrow-right"></i></a>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3>Mindful Balance</h3>
+                    <p>Meditation guides, stress management techniques, and cognitive performance enhancement tools.</p>
+                    <a href="#" class="read-more">Discover <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+
+            <!-- Interactive Dashboard -->
+            <div class="dashboard" id="dashboard">
+                <div class="container">
+                    <div class="dashboard-content">
+                        <div>
+                            <h2 style="font-size: 2.5rem; margin-bottom: 20px;">Interactive Fitness Dashboard</h2>
+                            <p style="margin-bottom: 30px; font-size: 1.1rem; opacity: 0.9;">Track progress, set goals, and visualize your fitness journey with our advanced analytics dashboard.</p>
+                            <div style="margin-bottom: 30px;">
+                                <h3 style="margin-bottom: 15px;">Create Your Plan</h3>
+                                <div class="activity-selector" style="display: flex; flex-wrap: wrap; gap: 10px;">
+                                    <div class="activity-btn" data-calories="320">Strength</div>
+                                    <div class="activity-btn" data-calories="280">Cardio</div>
+                                    <div class="activity-btn" data-calories="240">Yoga</div>
+                                    <div class="activity-btn" data-calories="380">HIIT</div>
+                                    <div class="activity-btn" data-calories="200">Swimming</div>
+                                </div>
+                            </div>
+                            <button id="generate-plan" class="btn-primary" style="margin-top: 20px;">
+                                <i class="fas fa-bolt"></i> Generate Smart Plan
+                            </button>
+                        </div>
+
+                        <div class="dashboard-preview">
+                            <div class="fitness-tracker">
+                                <div class="tracker-header">
+                                    <h4>Weekly Progress</h4>
+                                    <span style="color: var(--primary); font-weight: 600;">68% Complete</span>
+                                </div>
+
+                                <div class="progress-ring">
+                                    <svg width="120" height="120">
+                                        <circle class="progress-bg" cx="60" cy="60" r="50"></circle>
+                                        <circle class="progress-bar" cx="60" cy="60" r="50"></circle>
+                                    </svg>
+                                    <div class="progress-text">
+                                        <strong>68%</strong>
+                                        <small>Weekly Goal</small>
+                                    </div>
+                                </div>
+
+                                <div class="activity-list">
+                                    <div class="activity-item">
+                                        <span>Steps Today</span>
+                                        <strong>8,542</strong>
+                                    </div>
+                                    <div class="activity-item">
+                                        <span>Calories Burned</span>
+                                        <strong>420</strong>
+                                    </div>
+                                    <div class="activity-item">
+                                        <span>Workout Time</span>
+                                        <strong>45 min</strong>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Articles -->
+            <div class="articles" id="articles">
+                <div class="section-title">
+                    <h2>Latest from Our Experts</h2>
+                    <p>Evidence-based insights to guide your wellness journey</p>
+                </div>
+
+                <div class="articles-grid">
+                    <div class="article-card">
+                        <div class="article-image" style="background-image: url('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80');">
+                            <span class="article-tag">Fitness</span>
+                        </div>
+                        <div class="article-content">
+                            <div class="article-meta">
+                                <span><i class="far fa-calendar"></i> March 15, 2024</span>
+                                <span><i class="far fa-clock"></i> 5 min read</span>
+                            </div>
+                            <h3>The Science of High-Intensity Interval Training</h3>
+                            <p>Explore how HIIT can maximize fat burning and cardiovascular health in minimal time, backed by latest research findings.</p>
+                            <a href="#" class="read-more">Read Article <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+
+                    <div class="article-card">
+                        <div class="article-image" style="background-image: url('https://images.unsplash.com/photo-1490818387583-1baba5e638af?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80');">
+                            <span class="article-tag">Nutrition</span>
+                        </div>
+                        <div class="article-content">
+                            <div class="article-meta">
+                                <span><i class="far fa-calendar"></i> March 12, 2024</span>
+                                <span><i class="far fa-clock"></i> 7 min read</span>
+                            </div>
+                            <h3>Plant-Based Performance: Fueling Athletic Excellence</h3>
+                            <p>Discover how plant-forward nutrition can enhance recovery, reduce inflammation, and boost endurance for athletes.</p>
+                            <a href="#" class="read-more">Read Article <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+
+                    <div class="article-card">
+                        <div class="article-image" style="background-image: url('https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80');">
+                            <span class="article-tag">Mental Health</span>
+                        </div>
+                        <div class="article-content">
+                            <div class="article-meta">
+                                <span><i class="far fa-calendar"></i> March 8, 2024</span>
+                                <span><i class="far fa-clock"></i> 6 min read</span>
+                            </div>
+                            <h3>Mindfulness in Motion: Enhancing Athletic Focus</h3>
+                            <p>Learn how meditation and mindfulness practices can significantly improve concentration, reaction time, and performance under pressure.</p>
+                            <a href="#" class="read-more">Read Article <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>VitalityHub</h4>
+                    <p style="margin-bottom: 20px; color: rgba(255, 255, 255, 0.7);">Your comprehensive platform for holistic health transformation and sustainable wellness.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#dashboard">Dashboard</a></li>
+                        <li><a href="#articles">Articles</a></li>
+                        <li><a href="/about">About Us</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Research Papers</a></li>
+                        <li><a href="#">Success Stories</a></li>
+                        <li><a href="#">Webinars</a></li>
+                        <li><a href="#">Help Center</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Stay Updated</h4>
+                    <p style="color: rgba(255, 255, 255, 0.7); margin-bottom: 20px;">Subscribe to our newsletter for the latest health insights and updates.</p>
+                    <div class="newsletter">
+                        <input type="email" placeholder="Your email address">
+                        <button class="btn-primary" style="width: 100%; padding: 12px;">Subscribe</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="copyright">
+                <p>&copy; 2024 VitalityHub. All rights reserved. | <a href="#" style="color: var(--primary);">Privacy Policy</a> | <a href="#" style="color: var(--primary);">Terms of Service</a></p>
+                <p style="margin-top: 10px;">This website is a prototype created for educational purposes as part of Practical Work #1.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Header scroll effect
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('header');
+            if (window.scrollY > 100) {
+                header.style.padding = '10px 0';
+                header.style.boxShadow = '0 8px 30px rgba(0, 0, 0, 0.12)';
+            } else {
+                header.style.padding = '15px 0';
+                header.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.05)';
+            }
+        });
+
+        // Interactive workout planner
+        document.addEventListener('DOMContentLoaded', function() {
+            const activityButtons = document.querySelectorAll('.activity-btn');
+            const generateButton = document.getElementById('generate-plan');
+            const progressBar = document.querySelector('.progress-bar');
+            const progressText = document.querySelector('.progress-text strong');
+
+            let selectedActivities = [];
+            let progress = 68;
+
+            // Initialize progress ring
+            updateProgressRing();
+
+            // Activity selection
+            activityButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    this.classList.toggle('active');
+
+                    if (this.classList.contains('active')) {
+                        this.style.background = 'var(--primary)';
+                        this.style.color = 'white';
+                        selectedActivities.push(this.textContent);
+                    } else {
+                        this.style.background = '';
+                        this.style.color = '';
+                        selectedActivities = selectedActivities.filter(item => item !== this.textContent);
+                    }
+                });
+            });
+
+            // Generate plan
+            generateButton.addEventListener('click', function() {
+                if (selectedActivities.length === 0) {
+                    alert('Please select at least one activity type!');
+                    return;
+                }
+
+                // Simulate progress increase
+                progress = Math.min(100, progress + Math.floor(Math.random() * 15) + 5);
+                updateProgressRing();
+
+                // Show success message
+                this.innerHTML = '<i class="fas fa-check"></i> Plan Generated!';
+                this.style.background = 'var(--secondary)';
+
+                setTimeout(() => {
+                    this.innerHTML = '<i class="fas fa-bolt"></i> Generate Smart Plan';
+                    this.style.background = '';
+                }, 2000);
+
+                // Show generated plan
+                const planDetails = `
+                    <div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 10px; margin-top: 20px;">
+                        <h4 style="margin-bottom: 10px;">Your Personalized Plan Includes:</h4>
+                        <ul style="list-style: none; padding-left: 0;">
+                            ${selectedActivities.map((activity, index) => 
+                                `<li style="margin-bottom: 8px;">
+                                    <i class="fas fa-check-circle" style="color: #00C9A7;"></i> 
+                                    ${['Monday', 'Wednesday', 'Friday'][index % 3]}: ${activity} Training
+                                </li>`
+                            ).join('')}
+                        </ul>
+                        <p style="margin-top: 10px; font-size: 0.9em;">
+                            Based on your selections, we've created a balanced 3-day routine.
+                        </p>
+                    </div>
+                `;
+
+                // Add plan to dashboard
+                const dashboard = document.querySelector('.dashboard-content > div:first-child');
+                const existingPlan = dashboard.querySelector('.generated-plan');
+                if (existingPlan) existingPlan.remove();
+
+                const planDiv = document.createElement('div');
+                planDiv.className = 'generated-plan';
+                planDiv.innerHTML = planDetails;
+                dashboard.appendChild(planDiv);
+            });
+
+            function updateProgressRing() {
+                const circumference = 2 * Math.PI * 50;
+                const offset = circumference - (progress / 100) * circumference;
+
+                if (progressBar) {
+                    progressBar.style.strokeDashoffset = offset;
+                }
+
+                if (progressText) {
+                    progressText.textContent = `${progress}%`;
+                }
+
+                // Update activity stats
+                document.querySelector('.activity-item:nth-child(1) strong').textContent = 
+                    `${Math.floor(8000 + Math.random() * 2000).toLocaleString()}`;
+                document.querySelector('.activity-item:nth-child(2) strong').textContent = 
+                    `${Math.floor(300 + progress * 2)}`;
+                document.querySelector('.activity-item:nth-child(3) strong').textContent = 
+                    `${30 + Math.floor(progress / 2)} min`;
+            }
+
+            // Smooth scrolling
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        e.preventDefault();
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+
+            // Newsletter subscription
+            const newsletterInput = document.querySelector('.newsletter input');
+            const newsletterButton = document.querySelector('.newsletter .btn-primary');
+
+            newsletterButton.addEventListener('click', function() {
+                if (newsletterInput.value && newsletterInput.value.includes('@')) {
+                    this.innerHTML = '<i class="fas fa-check"></i> Subscribed!';
+                    this.style.background = 'var(--secondary)';
+                    newsletterInput.value = '';
+
+                    setTimeout(() => {
+                        this.innerHTML = 'Subscribe';
+                        this.style.background = '';
+                    }, 2000);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
